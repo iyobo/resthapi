@@ -1,0 +1,23 @@
+{
+  "name": "resthapi",
+  "author": "Iyobo Eki",
+  "version": "0.0.1",
+  "description": "REST API built with hapijs",
+  "main": "server.js",
+  "dependencies": {
+    "good": "^7.0.1",
+    "good-console": "^6.1.2",
+    "good-squeeze": "^4.0.0",
+    "hapi": "^13.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git:"
+  },
+  "license": "ISC"
+}
