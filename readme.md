@@ -4,6 +4,7 @@ Features:
 - Deep use of ES6 to yield all the things
 - Tests with Mocha/Chai
 - Realtime API SPEC using lout
+- Hierarchial configs per environment
 
 ## Requirements
 - Mocha (globally installed)
@@ -30,5 +31,6 @@ Please see API SPec doc for more details.
 - hapiadmin /password1
 - cedric / password2
 
-## Assumptions
+## Notes
 - In a production setting, HTTPS must be used as this API currently uses basic auth
+- Proper API Design should involve proper seperation of concerns into Models, Controllers, and Services (pure business logic to keep controllers/routes light). I abstracted some functions into services, but not nearly enough as I would have liked given time.
