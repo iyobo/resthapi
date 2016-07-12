@@ -4,8 +4,6 @@
  * that require models and other major initializations.
  */
 const co = require('co');
-const bcrypt = require('bcrypt-as-promised');
-const bcryptc = require('bcrypt');
 const userService = require('../app/services/userService')
 
 
@@ -28,7 +26,7 @@ module.exports = function*(server) {
 	yield server.register(require('hapi-auth-basic'));
 	server.auth.strategy('simple', 'basic',
 		{
-			validateFunc: userService.validateAuth
+			validateFunc: co.wrap(userService.validateAuth)
 		});
 
 	server.auth.default('simple');

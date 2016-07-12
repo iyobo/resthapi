@@ -16,6 +16,7 @@ module.exports = function (server) {
 		method: 'POST',
 		path: '/api/issue',
 		handler: co.wrap(function*(request, reply) {
+			
 			try {
 				let payload = request.payload;
 

@@ -8,6 +8,7 @@ const Joi = require('joi');
 
 module.exports = function (server) {
 	const Comment = server.app.db.comment;
+	const Issue = server.app.db.issue;
 
 	/**
 	 * Create a Comment
@@ -23,10 +24,15 @@ module.exports = function (server) {
 				payload.author = request.auth.credentials.id;
 				payload.authorName = request.auth.credentials.username
 
-				//use currently reference issueId as issue
+				//use currently referenced issueId as issue
 				payload.issue = request.params.issueId;
 
 				let result = yield new Comment(payload).save()
+
+				//also set comment id in comment array
+				let issue = yield Issue.findById(request.params.issueId)
+				issue.comments.push(result._id)
+				yield issue.save()
 
 				return reply(null, result).header("Authorization", request.headers.authorization);
 				;

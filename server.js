@@ -5,7 +5,7 @@ const co = require('co')
 /**
  * Using co to wrap the entire application for dependable ES6 behavior.
  */
-co.wrap(function*() {
+var servergen= co.wrap(function*() {
 
 	const Hapi = require('hapi');
 	const config = require('./app/config/configs').settings;
@@ -37,6 +37,8 @@ co.wrap(function*() {
 		yield server.start();
 
 		server.log('info', 'Server running at: ' + server.info.uri);
+		if(module.parent)
+			return server;
 
 	}catch(e){
 
@@ -47,4 +49,12 @@ co.wrap(function*() {
 		process.exit();
 	}
 
-})();
+});
+
+/**
+	If this is being loaded as a module return it else run
+ */
+if(!module.parent)
+	servergen()
+else
+	module.exports=servergen()

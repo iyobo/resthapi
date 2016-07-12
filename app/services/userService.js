@@ -5,7 +5,6 @@
 const User = require('../models/models').models.user;
 const config = require('../config/configs').settings;
 const bcrypt = require('bcrypt-as-promised');
-const bcryptc = require('bcrypt');
 const Boom = require('boom');
 
 module.exports = {
@@ -43,25 +42,14 @@ module.exports = {
 			throw Boom.conflict('Username already exists: '+username,username)
 		}
 	},
-	validateAuth:function (request, username, password, callback) {
+	validateAuth:function* (request, username, password, callback) {
 		// check if username exists in our db
-		User.findOne({username: username}, function (err, foundUser) {
-
-			if (err) {
-				throw err;
-			}
-
-			if (foundUser) {
-				bcryptc.compare(password, foundUser.password, function (err, valid) {
-					if (err) {
-						throw err;
-					}
-					return callback(null, valid, {id: foundUser._id, username: username});
-				});
-			}
-			else {
-				return callback(null, false);
-			}
-		});
+		var foundUser = yield User.findOne({username: username});
+		if (foundUser) {
+			var valid = yield bcryptc.compare(password, foundUser.password);
+			return callback(null, valid, {id: foundUser._id, username: username});
+		}else {
+			return callback(null, false);
+		}
 	}
 }
