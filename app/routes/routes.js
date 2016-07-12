@@ -27,5 +27,6 @@ module.exports = function*(server) {
 	
 	require('./issue-routes')(server);
 	require('./comment-routes')(server);
+	require('./auth-routes')(server);
 
 }
