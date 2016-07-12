@@ -37,7 +37,10 @@ module.exports = function (server) {
 					title: Joi.string(),
 					body: Joi.string()
 				}
-			}
+			},
+			description: 'Creates a new Issue',
+			notes: ["The currently authenticated user is assumed to be the author"],
+			tags: ['api', 'issue','create']
 		}
 	});
 
@@ -61,7 +64,19 @@ module.exports = function (server) {
 				server.log('error', e.stack)
 				return reply(e)
 			}
-		})
+		}),
+		config:{
+			validate: {
+				query: {
+					page: Joi.number().optional(),
+					limit: Joi.number().optional(),
+					sort: Joi.string().optional()
+				}
+			},
+			description: 'List all Issues',
+			notes: ["With pagination", "Defaults are page:1, limit: 10, and no sort"],
+			tags: ['api', 'issue']
+		}
 	});
 
 	/**
@@ -90,7 +105,10 @@ module.exports = function (server) {
 				params: {
 					id: Joi.string().length(24)
 				}
-			}
+			},
+			description: 'Gets details of a single Issue',
+			notes: ["Will return 404 error if it doesn't exist"],
+			tags: ['api', 'issue']
 		}
 	});
 
@@ -123,7 +141,12 @@ module.exports = function (server) {
 					body: Joi.string().optional(),
 					status: Joi.string().optional()
 				}
-			}
+			},
+			description: 'Updates an Issue',
+			notes: ["All updates, whether PATCH or PUT behave like PATCH.",
+				"The entire object is not overwritten. Just the fields that have been requested to be changed",
+				"To change the status of an issue, simply use {status: 'complete'} or {status: 'pending'} as your payload"],
+			tags: ['api', 'issue']
 		}
 	});
 
@@ -148,7 +171,11 @@ module.exports = function (server) {
 				params: {
 					id: Joi.string().length(24)
 				}
-			}
+			},
+			description: 'Deletes an Issue',
+			notes: ["The delete is permanent.","90% of the time, you don't want to do this. Instead just set status to 'complete",
+				"See PATCH /api/issue/{id}"],
+			tags: ['api', 'issue', 'delete']
 		}
 	});
 

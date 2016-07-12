@@ -20,15 +20,16 @@ module.exports = function (server) {
 				let payload = request.payload;
 
 				//use currently logged in user as author
-				payload.author=request.auth.credentials.id;
+				payload.author = request.auth.credentials.id;
 				payload.authorName = request.auth.credentials.username
 
 				//use currently reference issueId as issue
 				payload.issue = request.params.issueId;
-				
+
 				let result = yield new Comment(payload).save()
 
-				return reply(null, result).header("Authorization", request.headers.authorization);;
+				return reply(null, result).header("Authorization", request.headers.authorization);
+				;
 			} catch (e) {
 				server.log('error', e.stack)
 				return reply(e).header("Authorization", request.headers.authorization);
@@ -43,7 +44,10 @@ module.exports = function (server) {
 					title: Joi.string(),
 					body: Joi.string()
 				}
-			}
+			},
+			description: 'Creates a new Comment',
+			notes: ["All comments link to the issueID provided in the path", "The currently authenticated user is assumed to be the author"],
+			tags: ['api', 'comment','create']
 		}
 	});
 
@@ -60,14 +64,26 @@ module.exports = function (server) {
 				let limit = request.query.limit || 10
 				let sort = request.query.sort || ""
 
-				let comments = yield Comment.paginate({},{page: page, limit: limit, sort: sort})
+				let comments = yield Comment.paginate({}, {page: page, limit: limit, sort: sort})
 
-				return reply(null, comments).header("Authorization", request.headers.authorization);;;
+				return reply(null, comments).header("Authorization", request.headers.authorization);
 			} catch (e) {
 				server.log('error', e.stack)
 				return reply(e)
 			}
-		})
+		}),
+		config:{
+			validate: {
+				query: {
+					page: Joi.number().optional(),
+					limit: Joi.number().optional(),
+					sort: Joi.string().optional()
+				}
+			},
+			description: 'List all Comments for a given issue.',
+			notes: ["With pagination", "Defaults are page:1, limit: 10, and no sort"],
+			tags: ['api', 'comment']
+		}
 	});
 
 	/**
@@ -81,7 +97,7 @@ module.exports = function (server) {
 				let result = yield Comment.findById(request.params.id)
 
 				if (result) {
-					return reply(null, result).header("Authorization", request.headers.authorization);;;
+					return reply(null, result).header("Authorization", request.headers.authorization);
 				} else {
 					return reply(Boom.notFound('No such issue: ' + request.params.id));
 				}
@@ -96,7 +112,10 @@ module.exports = function (server) {
 				params: {
 					id: Joi.string().length(24)
 				}
-			}
+			},
+			description: 'Gets details of a single comment',
+			notes: ["Returns a 404 if it doesn't exist"],
+			tags: ['api', 'comment']
 		}
 	});
 
@@ -110,7 +129,7 @@ module.exports = function (server) {
 			try {
 				let result = yield Comment.remove({_id: request.params.id})
 
-				return reply(null, result).header("Authorization", request.headers.authorization);;;;
+				return reply(null, result).header("Authorization", request.headers.authorization);
 			} catch (e) {
 				server.log('error', e.stack)
 				return reply(e)
@@ -121,7 +140,10 @@ module.exports = function (server) {
 				params: {
 					id: Joi.string().length(24)
 				}
-			}
+			},
+			description: 'Deletes a single comment',
+			notes: ["Permanent Delete. be careful!"],
+			tags: ['api', 'comment','delete']
 		}
 	});
 

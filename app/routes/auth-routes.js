@@ -33,7 +33,10 @@ module.exports = function (server) {
 					username: Joi.string().min(3),
 					password: Joi.string().min(6)
 				}
-			}
+			},
+			description: 'Creates a new User',
+			notes: "Creates a new user with supplied username and password.",
+			tags: ['api', 'user','create']
 		}
 	});
 
