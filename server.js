@@ -21,14 +21,14 @@ co.wrap(function*() {
 		//Configure the hapijs server instance
 		yield require('./bootstrapper')(server);
 
-		//Setup controllers
-		yield require('./app/routes/routes')(server);
-
 		//Setup models
 		yield require('./app/models/models').init(server);
 
 		//Post-server-initialization init
 		yield require('./app/init')(server);
+
+		//Setup routes
+		yield require('./app/routes/routes')(server);
 
 		//Run the server
 		yield server.start();

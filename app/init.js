@@ -7,6 +7,7 @@ module.exports=function*(server){
 	if(!admin){
 		yield new server.app.db.user({
 			username: 'admin',
+			key: ''
 		}).save()
 		server.log('info','Created user with username admin')
 	}
