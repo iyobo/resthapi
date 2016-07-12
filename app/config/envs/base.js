@@ -10,17 +10,13 @@ module.exports = {
 
 	db: {
 		mongodb: {
-			url: 'mongodb://localhost/test',
+			url: 'mongodb://localhost/resthapi',
 		}
 	},
 
-	/**
-	 * Be sure to generate a fresh secret for each app.
-	 * You can have multiple rotating keys
-	 */
+
 	crypto: {
-		secrets: ['C5oCk7xWzoiv7huzWqfLTYzdnsDvtdnc'],
-		saltrounds: 8,
+		saltrounds: 8, //WARNING: Changing this WILL screw up all your user passwords
 	}
 
 }

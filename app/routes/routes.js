@@ -11,12 +11,16 @@ module.exports = function*(server) {
 	server.route({
 		method: 'GET',
 		path: '/',
-		handler: function*(request, reply) {
+		config:{
+			auth: false
+		},
+		handler: function(request, reply) {
 			return reply(`
 				<h1>Welcome to RestHapi.</h1>
 				<i>Created by Iyobo Eki</i>
 				
-				<p>For details/specs, see <a target="_blank" href="https://github.com/iyobo/resthapi">https://github.com/iyobo/resthapi</a></p>
+				<p>For details/specs/etc, see <a target="_blank" href="https://github.com/iyobo/resthapi">https://github.com/iyobo/resthapi</a></p>
+				
 			`);
 		}
 	});

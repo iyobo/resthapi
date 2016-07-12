@@ -4,7 +4,8 @@
  */
 const Good = require('good');
 
-module.exports=function*(server){
+
+module.exports = function*(server) {
 
 	//Logger
 	yield server.register({
@@ -24,5 +25,8 @@ module.exports=function*(server){
 			}
 		}
 	});
+
+
+	
 
 }

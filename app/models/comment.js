@@ -1,3 +1,4 @@
+'use strict'
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 /**
@@ -6,6 +7,7 @@ const mongoosePaginate = require('mongoose-paginate');
 let schema = mongoose.Schema({
 	title: String,
 	author: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
+	authorName: String,
 	body: String,
 	issue: {type:mongoose.Schema.Types.ObjectId, ref:'Issue'},
 
@@ -14,6 +16,6 @@ let schema = mongoose.Schema({
 });
 schema.plugin(mongoosePaginate);
 
-let Comment = mongoose.model('Comment', schema)
+let Comment = mongoose.model('Comment', schema);
 
 module.exports = Comment

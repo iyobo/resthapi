@@ -1,3 +1,4 @@
+'use strict'
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 /**
@@ -6,11 +7,13 @@ const mongoosePaginate = require('mongoose-paginate');
 let schema = mongoose.Schema({
 	title: String,
 	author: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
+	authorName: String,
 	body: String,
-	status: String,
+	status: {type:String, default:"pending"},
 	comments: [{type:mongoose.Schema.Types.ObjectId, ref:'Comment'}],
 
-	dateCreated: Date,
+	dateCreated: { type: Date, default: Date.now },
+	dateUpdated: { type: Date, default: Date.now },
 
 });
 schema.plugin(mongoosePaginate);

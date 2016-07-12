@@ -18,14 +18,17 @@ co.wrap(function*() {
 			port: config.server.port
 		});
 
+		//latch settings to server instance for easy access
+		server.app.settings = config;
+
 		//Configure the hapijs server instance
-		yield require('./bootstrapper')(server);
+		yield require('./bootstrapper/init')(server);
 
 		//Setup models
 		yield require('./app/models/models').init(server);
 
 		//Post-server-initialization init
-		yield require('./app/init')(server);
+		yield require('./bootstrapper/postinit')(server);
 
 		//Setup routes
 		yield require('./app/routes/routes')(server);
