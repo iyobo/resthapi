@@ -27,8 +27,8 @@ Some default users are generated on startup, but you can create your own by post
 Please see API SPec doc for more details.
 
 ### Default Users
-hapiadmin /password1
-cedric / password2
+- hapiadmin /password1
+- cedric / password2
 
 ## Assumptions
 - In a production setting, HTTPS must be used as this API currently uses basic auth
