@@ -26,7 +26,8 @@ module.exports = function*(server) {
 		}
 	});
 
+	//Document generator
+	yield server.register([require('vision'), require('inert'), {register: require('lout')}]);
 
-	
 
 }

@@ -16,10 +16,8 @@ module.exports = function (server) {
 	 */
 	server.route({
 		method: 'POST',
-		path: '/api/user/',
+		path: '/api/user',
 		handler: co.wrap(function*(request, reply) {
-
-
 			try {
 				let result = yield userSerive.createUniqueUser(request.payload.username, request.payload.password);
 
@@ -32,8 +30,8 @@ module.exports = function (server) {
 		config: {
 			validate: {
 				payload: {
-					username: Joi.string(),
-					password: Joi.string()
+					username: Joi.string().min(3),
+					password: Joi.string().min(6)
 				}
 			}
 		}
