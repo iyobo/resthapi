@@ -2,11 +2,12 @@
  * Created by iyobo on 2016-07-11.
  */
 const co = require('co');
+const Issue= server.app.db.issue;
 
 module.exports = function (server) {
 
 	/**
-	 * List all issues
+	 * List all issues. With pagination.
 	 */
 	server.route({
 		method: 'GET',
@@ -17,7 +18,7 @@ module.exports = function (server) {
 				let limit = request.query.limit || 10
 				let sort= request.query.sort || ""
 
-				let issues = yield server.app.db.issue.paginate({}, {page: page, limit: limit, sort:sort})
+				let issues = yield Issue.paginate({}, {page: page, limit: limit, sort:sort})
 
 				return reply(null, issues);
 			} catch (e) {
@@ -35,7 +36,7 @@ module.exports = function (server) {
 		path: '/api/issue/{id}',
 		handler: co.wrap(function*(request, reply) {
 			try {
-				let issue = yield server.app.db.issue.findById(request.params.id)
+				let issue = yield Issue.findById(request.params.id)
 
 				return reply(null, issue);
 			} catch (e) {
@@ -53,7 +54,7 @@ module.exports = function (server) {
 		path: '/api/issue',
 		handler: co.wrap(function*(request, reply) {
 			try {
-				let result = yield new server.app.db.issue(request.payload).save()
+				let result = yield new Issue(request.payload).save()
 
 				return reply(null, result);
 			} catch (e) {
@@ -73,7 +74,7 @@ module.exports = function (server) {
 		handler: co.wrap(function*(request, reply) {
 			try {
 				let query={id: request.query.id}
-				let result = yield new server.app.db.issue.update(query,{$set:request.payload})
+				let result = yield Issue.update(query,{$set:request.payload})
 
 				return reply(null, result);
 			} catch (e) {
@@ -92,7 +93,7 @@ module.exports = function (server) {
 		handler: co.wrap(function*(request, reply) {
 			try {
 				let query={id: request.query.id}
-				let result = yield new server.app.db.issue.remove(query)
+				let result = yield Issue.remove(query)
 
 				return reply(null, result);
 			} catch (e) {
