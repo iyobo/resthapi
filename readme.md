@@ -5,15 +5,17 @@ Features:
 - Tests with Mocha/Chai
 - Realtime API SPEC using lout
 
+## Requirements
+- Mocha (globally installed)
+- NodeJS 5 (recommended)
+
 ##Getting Started
 ```
 sh setup.sh
 npm install
 npm start (to run server)
 ```
-
 To run tests instead of server, use `npm test`
-
 
 ## API Spec
 Please visit /doc for API specs/documentation
