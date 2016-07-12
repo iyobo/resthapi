@@ -9,7 +9,7 @@ module.exports={
 
 	db: {
 		mongodb: {
-			url: 'mongodb://localhost/resthapi_test',
+			url: 'mongodb://localhost/resthapitest',
 		}
 	},
 }

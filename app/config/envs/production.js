@@ -6,7 +6,7 @@ module.exports={
 
 	db: {
 		mongodb: {
-			url: 'mongodb://localhost/test', //This should point to something else for production
+			url: 'mongodb://localhost/production', //This should point to something else for production
 		}
 	},
 }

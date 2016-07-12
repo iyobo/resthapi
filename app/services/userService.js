@@ -46,7 +46,7 @@ module.exports = {
 		// check if username exists in our db
 		var foundUser = yield User.findOne({username: username});
 		if (foundUser) {
-			var valid = yield bcryptc.compare(password, foundUser.password);
+			var valid = yield bcrypt.compare(password, foundUser.password);
 			return callback(null, valid, {id: foundUser._id, username: username});
 		}else {
 			return callback(null, false);

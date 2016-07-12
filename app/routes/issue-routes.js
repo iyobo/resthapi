@@ -16,7 +16,7 @@ module.exports = function (server) {
 		method: 'POST',
 		path: '/api/issue',
 		handler: co.wrap(function*(request, reply) {
-			
+
 			try {
 				let payload = request.payload;
 
@@ -54,9 +54,9 @@ module.exports = function (server) {
 		path: '/api/issue',
 		handler: co.wrap(function*(request, reply) {
 			try {
-				let page = request.query.page || 1
-				let limit = request.query.limit || 10
-				let sort = request.query.sort || ""
+				let page = request.query.page || 1;
+				let limit = request.query.limit || 10;
+				let sort = request.query.sort || "";
 
 				let issues = yield Issue.paginate({}, {populate: 'author, username' ,page: page, limit: limit, sort: sort})
 

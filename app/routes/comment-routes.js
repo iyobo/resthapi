@@ -18,6 +18,14 @@ module.exports = function (server) {
 		path: '/api/issue/{issueId}/comment',
 		handler: co.wrap(function*(request, reply) {
 			try {
+
+				//also set comment id in comment array
+				let issue = yield Issue.findById(request.params.issueId)
+				if(!issue){
+					//issue does not exist
+					throw Boom.notFound('No such Issue to comment on. id:'+request.params.issueId,request.params.issueId)
+				}
+
 				let payload = request.payload;
 
 				//use currently logged in user as author
@@ -29,8 +37,6 @@ module.exports = function (server) {
 
 				let result = yield new Comment(payload).save()
 
-				//also set comment id in comment array
-				let issue = yield Issue.findById(request.params.issueId)
 				issue.comments.push(result._id)
 				yield issue.save()
 
@@ -52,7 +58,7 @@ module.exports = function (server) {
 				}
 			},
 			description: 'Creates a new Comment',
-			notes: ["All comments link to the issueID provided in the path", "The currently authenticated user is assumed to be the author"],
+			notes: ["All comments link to the issueID provided in the path", "Will throw 404 error if issue to be attached to does not exist", "The currently authenticated user is assumed to be the author"],
 			tags: ['api', 'comment','create']
 		}
 	});

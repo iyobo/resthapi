@@ -1,6 +1,4 @@
-/**
- * Created by iyobo on 2016-07-11.
- */
+'use strict';
 
 /**
  * Define routes for this Rest Server here
