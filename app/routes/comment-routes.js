@@ -5,6 +5,7 @@
 const co = require('co');
 const Boom = require('boom');
 const Joi = require('joi');
+const issueService = require('../services/issueService');
 
 module.exports = function (server) {
 	const Comment = server.app.db.comment;
@@ -19,29 +20,16 @@ module.exports = function (server) {
 		handler: co.wrap(function*(request, reply) {
 			try {
 
-				//also set comment id in comment array
-				let issue = yield Issue.findById(request.params.issueId)
-				if(!issue){
-					//issue does not exist
-					throw Boom.notFound('No such Issue to comment on. id:'+request.params.issueId,request.params.issueId)
-				}
-
 				let payload = request.payload;
 
 				//use currently logged in user as author
 				payload.author = request.auth.credentials.id;
-				payload.authorName = request.auth.credentials.username
+				payload.authorName = request.auth.credentials.username;
 
-				//use currently referenced issueId as issue
-				payload.issue = request.params.issueId;
-
-				let result = yield new Comment(payload).save()
-
-				issue.comments.push(result._id)
-				yield issue.save()
+				var result= yield issueService.createComment(request.params.issueId,payload)
 
 				return reply(null, result).header("Authorization", request.headers.authorization);
-				;
+				
 			} catch (e) {
 				server.log('error', e.stack)
 				return reply(e).header("Authorization", request.headers.authorization);

@@ -19,7 +19,7 @@ module.exports = {
 	 * @param password
 	 * @returns {*}
 	 */
-	createUniqueUser: function*(username,password){
+	createUserIfNotExist: function*(username, password){
 		let exists = yield User.findOne({username: username})
 		if (!exists) {
 			return yield this.createUser(username,password);

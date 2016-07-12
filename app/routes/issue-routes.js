@@ -5,6 +5,7 @@
 const co = require('co');
 const Boom = require('boom');
 const Joi = require('joi');
+const issueService = require('../services/issueService');
 
 module.exports = function (server) {
 	const Issue = server.app.db.issue;
@@ -24,7 +25,7 @@ module.exports = function (server) {
 				payload.author=request.auth.credentials.id
 				payload.authorName = request.auth.credentials.username
 
-				let result = yield new Issue(payload).save()
+				let result = yield issueService.createIssue(payload);
 
 				return reply(null, result).header("Authorization", request.headers.authorization);;
 			} catch (e) {

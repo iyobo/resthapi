@@ -16,8 +16,8 @@ module.exports = function*(server) {
 	 * Create initial users if they doesn't exist.
 	 * Ideally, this should be a data migration
 	 */
-	yield userService.createUniqueUser('hapiadmin','password1');
-	yield userService.createUniqueUser('cedric','password2');
+	yield userService.createUserIfNotExist('hapiadmin','password1');
+	yield userService.createUserIfNotExist('cedric','password2');
 
 
 	/**
