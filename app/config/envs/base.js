@@ -10,8 +10,7 @@ module.exports = {
 
 	db: {
 		mongodb: {
-			url: 'http://localhost:8123',
-			dbname: 'livinghired',
+			url: 'mongodb://localhost/test',
 		}
 	},
 

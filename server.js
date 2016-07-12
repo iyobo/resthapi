@@ -8,8 +8,7 @@ const co = require('co')
 co.wrap(function*() {
 
 	const Hapi = require('hapi');
-	const Good = require('good');
-	const config = require('./app/config').settings;
+	const config = require('./app/config/configs').settings;
 
 
 	try {
@@ -19,8 +18,17 @@ co.wrap(function*() {
 			port: config.server.port
 		});
 
-		//Attach and configure the hapijs server instance
-		yield require('./bootstrapper')(server)
+		//Configure the hapijs server instance
+		yield require('./bootstrapper')(server);
+
+		//Setup controllers
+		yield require('./app/routes/routes')(server);
+
+		//Setup models
+		yield require('./app/models/models').init(server);
+
+		//Post-server-initialization init
+		yield require('./app/init')(server);
 
 		//Run the server
 		yield server.start();
@@ -28,10 +36,11 @@ co.wrap(function*() {
 		server.log('info', 'Server running at: ' + server.info.uri);
 
 	}catch(e){
-		console.error(e);
-		console.error("[Uncaught Exception] Error bubbled to the top. The server will now quit. " +
+
+		console.error("[Uncaught Exception] The following error bubbled to the top. The server will now quit. " +
 			"If you would like to prevent auto-quitting in the future, be sure to catch all " +
-			"trivial exceptions generated in your application");
+			"trivial exceptions generated in your application...");
+		console.error(e.stack);
 		process.exit();
 	}
 

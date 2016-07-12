@@ -4,16 +4,13 @@ const mongoosePaginate = require('mongoose-paginate');
  * Created by iyobo on 2016-07-11.
  */
 let schema = mongoose.Schema({
-	title: String,
-	author: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
-	body: String,
-	issue: {type:mongoose.Schema.Types.ObjectId, ref:'Issue'},
+	username: String,
 
 	dateCreated: { type: Date, default: Date.now },
 
 });
 schema.plugin(mongoosePaginate);
 
-let Comment = mongoose.model('Comment', schema)
+let User = mongoose.model('User', schema)
 
-module.exports = Comment
+module.exports = User

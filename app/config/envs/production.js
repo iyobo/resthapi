@@ -6,7 +6,7 @@ module.exports={
 
 	db: {
 		mongodb: {
-			url: 'user:password@http://db.prod.florence.com:8123',
+			url: 'mongodb://localhost/test', //This should point to something else for production
 		}
 	},
 }
