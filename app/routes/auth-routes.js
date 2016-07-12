@@ -19,7 +19,7 @@ module.exports = function (server) {
 		path: '/api/user',
 		handler: co.wrap(function*(request, reply) {
 			try {
-				let result = yield userSerive.createUniqueUser(request.payload.username, request.payload.password);
+				let result = yield userSerive.createStrictUniqueUser(request.payload.username, request.payload.password);
 
 				return reply(null, result).header("Authorization", request.headers.authorization);;
 			} catch (e) {
@@ -34,6 +34,7 @@ module.exports = function (server) {
 					password: Joi.string().min(6)
 				}
 			},
+			auth: false,
 			description: 'Creates a new User',
 			notes: "Creates a new user with supplied username and password.",
 			tags: ['api', 'user','create']
