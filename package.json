@@ -32,7 +32,7 @@
     "lab": "^10.9.0"
   },
   "scripts": {
-    "test": "mocha test",
+    "test": "NODE_ENV=test mocha test",
     "start": "node server.js"
   },
   "repository": {
