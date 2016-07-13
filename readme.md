@@ -19,7 +19,7 @@ npm start (to run server)
 To run tests instead of server, use `npm test`
 
 ## API Spec
-Please visit /doc for API specs/documentation
+Please visit `/docs` for API specs/documentation
 
 ## Authentication
 
