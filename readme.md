@@ -16,7 +16,14 @@ sh setup.sh
 npm install
 npm start (to run server)
 ```
-To run tests instead of server, use `npm test`
+
+## Testing
+To run tests, use `npm test`.
+Tests will run in it's own seperate test environment.
+
+### Postman testing
+For testing routes with postman see here.
+https://www.getpostman.com/collections/fc75df0e28c32cd6379c
 
 ## API Spec
 Please visit `/docs` for API specs/documentation
