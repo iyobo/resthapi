@@ -119,6 +119,37 @@ co.wrap(function*() {
 				expect(res.result.docs.length).to.be.at.least(2);
 			}));
 
+			it("should show one comment from DB", co.wrap(function*() {
+
+				var issue = yield issueService.createIssue({
+					author: testUserId,
+					authorName: testUserName,
+					title: 'Test Issue single',
+					body: 'issue text single'
+				});
+				var comment= yield issueService.createComment(issue._id,{
+					author: testUserId,
+					authorName: testUserName,
+					title: 'Test comment single',
+					body: 'issue comment single'
+				});
+
+				expect(issue).to.not.equal(null);
+				expect(issue._id).to.not.equal(null);
+				expect(comment).to.not.equal(null);
+				expect(comment._id).to.not.equal(null);
+
+				//request comment just created
+				var res = yield server.inject({
+					method: 'GET',
+					url: '/api/comment/'+comment._id,
+					credentials: {username: testUserName, id: testUserId}
+				});
+				expect(res.statusCode).to.equal(200);
+				expect(String(res.result._id)).to.equal(String(comment._id));
+
+			}));
+
 		}));
 
 		describe('Deleting Comments', co.wrap(function*() {

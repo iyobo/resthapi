@@ -61,6 +61,7 @@ co.wrap(function*() {
 				expect(res.statusCode).to.equal(401);
 
 			}));
+
 			it("should return list of issues", co.wrap(function*() {
 
 				//Create them
@@ -84,6 +85,29 @@ co.wrap(function*() {
 				})
 				expect(res.statusCode).to.equal(200);
 				expect(res.result.docs.length).to.be.at.least(2);
+			}));
+
+			it("should show one issue from DB", co.wrap(function*() {
+
+				var issue = yield issueService.createIssue({
+					author: testUserId,
+					authorName: testUserName,
+					title: 'Test Issue single',
+					body: 'issue text single'
+				});
+
+				expect(issue).to.not.equal(null);
+				expect(issue._id).to.not.equal(null);
+
+				//request comment just created
+				var res = yield server.inject({
+					method: 'GET',
+					url: '/api/issue/'+issue._id,
+					credentials: {username: testUserName, id: testUserId}
+				});
+				expect(res.statusCode).to.equal(200);
+				expect(String(res.result._id)).to.equal(String(issue._id));
+
 			}));
 
 		}));
